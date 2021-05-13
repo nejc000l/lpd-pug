@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/info.css'
 import lzs from '../img/Lzs.png';
+import { Document, Page  } from 'react-pdf';
 
-const Info = ()=>{
+import samplePDF from '../files/LAPK.pdf';
+
+const Info = ({currentText})=>{
+    const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
     return(
         <div className="container">
             <div className="container-left">
@@ -33,15 +43,20 @@ const Info = ()=>{
                     </div>
             </div>
             <div className="container-right">
-                    <div></div>
-                    <div className="title small">Title of the link</div>
-                    <div className="content smaller-text">Lorem ipsum dolor, 
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus quidem, quaerat aliquid nulla nam nisi qui sapiente quam totam architecto quisquam ullam distinctio eius suscipit unde? Sapiente voluptates vero blanditiis?
-                    sit amet consectetur adipisicing elit. Sequi, culpa. Accusantium officiis dolorem incidunt, totam quod illo corporis odio excepturi voluptas ea, quibusdam labore cumque atque provident in facilis. Itaque.</div>
+                   
+                    <div className="title small"><h2>{currentText.title}</h2></div>
+                    <div className="content smaller-text"><h3>{currentText.text}</h3></div>
+                    <Document
+        file={samplePDF}
+        onLoadSuccess={onDocumentLoadSuccess}>
+        <Page pageNumber={pageNumber} />
+      </Document>
+      <p>Page {pageNumber} of {numPages}</p>
+    </div>
             </div>
      
      
-        </div>
+        
         
 
     )
