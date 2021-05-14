@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import '../css/info.css'
 import lzs from '../img/Lzs.png';
-import { Document, Page  } from 'react-pdf';
+import SinglePagePDFViewer from "./pdf/single-pages";
+import AllPagesPDFViewer from "./pdf/all-pages";
 
-import samplePDF from '../files/LAPK.pdf';
+import file from '../public/LAPK.pdf';
 
 const Info = ({currentText})=>{
     const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
+    const [pageNumber, setPageNumber] = useState(1);
+    
+    function onDocumentLoadSuccess({ numPages }) {
+        setNumPages(numPages);
+    }
+    
     return(
         <div className="container">
             <div className="container-left">
@@ -45,15 +46,12 @@ const Info = ({currentText})=>{
             <div className="container-right">
                    
                     <div className="title small"><h2>{currentText.title}</h2></div>
+                    <div className="all-page-container">
+                     <SinglePagePDFViewer pdf={file} />
+                     </div>
                     <div className="content smaller-text"><h3>{currentText.text}</h3></div>
-                    <Document
-        file={samplePDF}
-        onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-      </Document>
-      <p>Page {pageNumber} of {numPages}</p>
+      </div>
     </div>
-            </div>
      
      
         
